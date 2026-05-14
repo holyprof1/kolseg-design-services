@@ -84,6 +84,15 @@ function kolseg_get_seed_page_map() {
     );
 }
 
+function kolseg_get_seed_config_by_slug($slug) {
+    $page_map = kolseg_get_seed_page_map();
+    if (isset($page_map[$slug])) {
+        return $page_map[$slug];
+    }
+
+    return null;
+}
+
 function kolseg_get_service_nav_items() {
     return array(
         'service-photography-videography' => 'Photography / Videography',
@@ -318,6 +327,30 @@ function kolseg_transform_imported_html($content) {
 
 function kolseg_wrap_seeded_content($content) {
     return "<!-- wp:html -->\n" . $content . "\n<!-- /wp:html -->";
+}
+
+function kolseg_get_seed_source_content($slug) {
+    $config = kolseg_get_seed_config_by_slug($slug);
+    if (empty($config) || empty($config['source'])) {
+        return '';
+    }
+
+    $source_path = trailingslashit(get_template_directory()) . 'source-html/' . $config['source'];
+    if (!file_exists($source_path)) {
+        return '';
+    }
+
+    $source_html = file_get_contents($source_path);
+    if (false === $source_html) {
+        return '';
+    }
+
+    $content = kolseg_extract_main_content($source_html);
+    if (empty($content)) {
+        return '';
+    }
+
+    return kolseg_transform_imported_html($content);
 }
 
 function kolseg_set_front_page_by_slug($slug = 'home') {
