@@ -179,6 +179,7 @@ function kolseg_import_source_pages($force_replace = false) {
         }
 
         $content = kolseg_transform_imported_html($content);
+        $content = kolseg_wrap_seeded_content($content);
         $content_signature = md5($content);
         $excerpt = kolseg_extract_meta_description($source_html);
         $existing_page = get_page_by_path($slug, OBJECT, 'page');
@@ -313,6 +314,10 @@ function kolseg_transform_imported_html($content) {
     }
 
     return wp_kses($content, $allowed_html);
+}
+
+function kolseg_wrap_seeded_content($content) {
+    return "<!-- wp:html -->\n" . $content . "\n<!-- /wp:html -->";
 }
 
 function kolseg_set_front_page_by_slug($slug = 'home') {

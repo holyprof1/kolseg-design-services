@@ -2,7 +2,7 @@
 <main>
   <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
     <?php if (trim((string) get_the_content())) : ?>
-      <?php the_content(); ?>
+      <?php kolseg_render_page_content(); ?>
     <?php else : ?>
       <section class="hero hero-home hero-home-clean">
         <div class="hero-media">

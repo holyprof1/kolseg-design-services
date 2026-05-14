@@ -81,6 +81,33 @@ function kolseg_get_page_key() {
     return $post->post_name;
 }
 
+function kolseg_is_seeded_page($post_id = 0) {
+    $post_id = $post_id ? (int) $post_id : get_the_ID();
+    if (empty($post_id)) {
+        return false;
+    }
+
+    return '1' === get_post_meta($post_id, '_kolseg_seeded_page', true);
+}
+
+function kolseg_render_page_content() {
+    if (!kolseg_is_seeded_page()) {
+        the_content();
+        return;
+    }
+
+    $autop_priority = has_filter('the_content', 'wpautop');
+    if (false !== $autop_priority) {
+        remove_filter('the_content', 'wpautop', $autop_priority);
+    }
+
+    the_content();
+
+    if (false !== $autop_priority) {
+        add_filter('the_content', 'wpautop', $autop_priority);
+    }
+}
+
 function kolseg_get_theme_image($setting, $fallback) {
     $image = get_theme_mod($setting);
     if (!empty($image)) {
