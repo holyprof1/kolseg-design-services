@@ -155,6 +155,99 @@ function kolseg_seeded_content_is_malformed($content) {
     return false;
 }
 
+function kolseg_has_missing_seed_pages() {
+    foreach (array_keys(kolseg_get_seed_page_map()) as $slug) {
+        if ('home' === $slug) {
+            continue;
+        }
+
+        $page = get_page_by_path($slug, OBJECT, 'page');
+        if (!($page instanceof WP_Post)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function kolseg_is_front_page_synced() {
+    $home_page = get_page_by_path('home', OBJECT, 'page');
+    if (!($home_page instanceof WP_Post)) {
+        return false;
+    }
+
+    return 'page' === get_option('show_on_front') && (int) get_option('page_on_front') === (int) $home_page->ID;
+}
+
+function kolseg_get_seed_sync_version() {
+    $theme = wp_get_theme();
+    return (string) $theme->get('Version');
+}
+
+function kolseg_maybe_sync_seed_pages() {
+    if (wp_installing()) {
+        return;
+    }
+
+    static $has_run = false;
+    if ($has_run) {
+        return;
+    }
+    $has_run = true;
+
+    $stored_version = (string) get_option('kolseg_seed_sync_version', '');
+    $current_version = kolseg_get_seed_sync_version();
+    $needs_sync = $stored_version !== $current_version;
+
+    if (!$needs_sync) {
+        $needs_sync = kolseg_has_missing_seed_pages() || !kolseg_is_front_page_synced();
+    }
+
+    if (!$needs_sync) {
+        return;
+    }
+
+    kolseg_import_source_pages(false);
+    kolseg_set_front_page_by_slug('home');
+    update_option('kolseg_seed_sync_version', $current_version, false);
+}
+add_action('init', 'kolseg_maybe_sync_seed_pages', 20);
+
+function kolseg_get_requested_slug() {
+    if (empty($_SERVER['REQUEST_URI'])) {
+        return '';
+    }
+
+    $request_uri = wp_unslash($_SERVER['REQUEST_URI']);
+    $request_path = strtok($request_uri, '?');
+    if (empty($request_path)) {
+        return '';
+    }
+
+    return trim($request_path, '/');
+}
+
+function kolseg_recover_missing_seed_page_request() {
+    if (!is_404()) {
+        return;
+    }
+
+    $requested_slug = kolseg_get_requested_slug();
+    if (empty($requested_slug) || !kolseg_get_seed_config_by_slug($requested_slug)) {
+        return;
+    }
+
+    kolseg_import_source_pages(false);
+    $page = get_page_by_path($requested_slug, OBJECT, 'page');
+    if (!($page instanceof WP_Post)) {
+        return;
+    }
+
+    wp_safe_redirect(get_permalink($page), 301);
+    exit;
+}
+add_action('template_redirect', 'kolseg_recover_missing_seed_page_request');
+
 function kolseg_get_theme_image($setting, $fallback) {
     $image = get_theme_mod($setting);
     if (!empty($image)) {
