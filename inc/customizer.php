@@ -57,8 +57,8 @@ function kolseg_customize_register($wp_customize) {
     $images = array(
         'kolseg_hero_bg' => array('label' => __('Hero Background', 'kolseg-design-services'), 'fallback' => 'live-studio-main.jpg'),
         'kolseg_hero_main_card' => array('label' => __('Hero Main Studio Image', 'kolseg-design-services'), 'fallback' => 'live-studio-stage.jpg'),
-        'kolseg_hero_photo_card' => array('label' => __('Hero Media Image', 'kolseg-design-services'), 'fallback' => 'kolseg-visual-coverage.jpg'),
-        'kolseg_hero_light_card' => array('label' => __('Hero Lighting Image', 'kolseg-design-services'), 'fallback' => 'kolseg-lighting-rig.jpg'),
+        'kolseg_hero_photo_card' => array('label' => __('Hero Media Image', 'kolseg-design-services'), 'fallback' => 'hero-live-studio.jpg'),
+        'kolseg_hero_light_card' => array('label' => __('Hero Lighting Image', 'kolseg-design-services'), 'fallback' => 'lighting-stage.jpg'),
     );
 
     foreach ($images as $setting => $args) {
