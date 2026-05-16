@@ -110,7 +110,7 @@ function kolseg_get_page_url_by_slug($slug) {
     }
 
     $page = get_page_by_path($slug, OBJECT, 'page');
-    if ($page instanceof WP_Post) {
+    if ($page instanceof WP_Post && 'publish' === $page->post_status) {
         return get_permalink($page);
     }
 
@@ -119,11 +119,41 @@ function kolseg_get_page_url_by_slug($slug) {
 
 function kolseg_get_page_title_by_slug($slug, $fallback) {
     $page = get_page_by_path($slug, OBJECT, 'page');
-    if ($page instanceof WP_Post) {
+    if ($page instanceof WP_Post && 'publish' === $page->post_status) {
         return get_the_title($page);
     }
 
     return $fallback;
+}
+
+function kolseg_existing_page_needs_seed_refresh($page, $force_replace) {
+    if (!($page instanceof WP_Post)) {
+        return false;
+    }
+
+    if ($force_replace) {
+        return true;
+    }
+
+    if ('publish' !== $page->post_status) {
+        return true;
+    }
+
+    $content = (string) $page->post_content;
+    if (empty(trim($content))) {
+        return true;
+    }
+
+    if (function_exists('kolseg_seeded_content_is_malformed') && kolseg_seeded_content_is_malformed($content)) {
+        return true;
+    }
+
+    $existing_signature = get_post_meta($page->ID, '_kolseg_seed_signature', true);
+    if (!empty($existing_signature) && md5($content) === $existing_signature) {
+        return true;
+    }
+
+    return false;
 }
 
 function kolseg_render_primary_navigation() {
@@ -201,8 +231,7 @@ function kolseg_import_source_pages($force_replace = false) {
         );
 
         if ($existing_page instanceof WP_Post) {
-            $existing_signature = get_post_meta($existing_page->ID, '_kolseg_seed_signature', true);
-            $should_seed = $force_replace || empty(trim((string) $existing_page->post_content)) || (!empty($existing_signature) && md5($existing_page->post_content) === $existing_signature);
+            $should_seed = kolseg_existing_page_needs_seed_refresh($existing_page, $force_replace);
 
             if ($should_seed) {
                 $page_args['ID'] = $existing_page->ID;
@@ -210,6 +239,15 @@ function kolseg_import_source_pages($force_replace = false) {
                 wp_update_post($page_args);
                 update_post_meta($existing_page->ID, '_kolseg_seeded_page', '1');
                 update_post_meta($existing_page->ID, '_kolseg_seed_signature', $content_signature);
+            } else {
+                wp_update_post(
+                    array(
+                        'ID' => $existing_page->ID,
+                        'post_status' => 'publish',
+                        'post_title' => $config['title'],
+                        'post_excerpt' => $excerpt,
+                    )
+                );
             }
 
             if (!empty($config['is_front_page'])) {

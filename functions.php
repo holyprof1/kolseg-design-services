@@ -162,7 +162,7 @@ function kolseg_has_missing_seed_pages() {
         }
 
         $page = get_page_by_path($slug, OBJECT, 'page');
-        if (!($page instanceof WP_Post)) {
+        if (!($page instanceof WP_Post) || 'publish' !== $page->post_status) {
             return true;
         }
     }
