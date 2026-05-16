@@ -172,8 +172,8 @@ function kolseg_render_primary_navigation() {
         </div>
         <div class="nav-dropdown-rail">
           <a class="nav-dropdown-card" href="<?php echo esc_url(kolseg_get_page_url_by_slug('service-photography-videography')); ?>">
-            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/photo-hanna-4.jpg'); ?>" alt="KOLSEG photography and media">
-            <span><strong>Media</strong><em>Photography, videography, podcast, studio sessions</em></span>
+            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/hero-live-studio.jpg'); ?>" alt="KOLSEG media and studio">
+            <span><strong>Media</strong><em>Studio content, videography, production support, visual coverage</em></span>
           </a>
           <a class="nav-dropdown-card" href="<?php echo esc_url(kolseg_get_page_url_by_slug('service-music-audio')); ?>">
             <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/audio-production.jpg'); ?>" alt="KOLSEG audio and production">

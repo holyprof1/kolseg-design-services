@@ -10,7 +10,7 @@ function kolseg_customize_register($wp_customize) {
 
     $settings = array(
         'kolseg_hero_title' => 'Full-service design, media, sound, lighting, fabrication, interiors, and event production.',
-        'kolseg_hero_text' => 'KOLSEG creates stages, backdrops, pavilions, studio content, portrait work, sound systems, lighting experiences, interiors, and launch-ready environments with the technical ability to deliver the spectacular.',
+        'kolseg_hero_text' => 'KOLSEG creates stages, backdrops, pavilions, studio content, sound systems, lighting experiences, interiors, and launch-ready environments with the technical ability to deliver the spectacular.',
         'kolseg_phone' => '08054859669',
         'kolseg_whatsapp' => '08025264488',
         'kolseg_meta_description' => 'KOLSEG delivers photography, videography, sound, lighting, stage fabrication, interiors, and event production from Ogun State for brands, events, and commercial spaces.',
@@ -57,7 +57,7 @@ function kolseg_customize_register($wp_customize) {
     $images = array(
         'kolseg_hero_bg' => array('label' => __('Hero Background', 'kolseg-design-services'), 'fallback' => 'live-studio-main.jpg'),
         'kolseg_hero_main_card' => array('label' => __('Hero Main Studio Image', 'kolseg-design-services'), 'fallback' => 'live-studio-stage.jpg'),
-        'kolseg_hero_photo_card' => array('label' => __('Hero Photography Image', 'kolseg-design-services'), 'fallback' => 'photo-hanna-4.jpg'),
+        'kolseg_hero_photo_card' => array('label' => __('Hero Media Image', 'kolseg-design-services'), 'fallback' => 'hero-live-studio.jpg'),
         'kolseg_hero_light_card' => array('label' => __('Hero Lighting Image', 'kolseg-design-services'), 'fallback' => 'lighting-stage.jpg'),
     );
 

@@ -15,7 +15,7 @@
           <div class="hero-clean-copy reveal">
             <p class="eyebrow">Making Imagination A Statement</p>
             <h1><?php echo esc_html(get_theme_mod('kolseg_hero_title', 'Full-service design, media, sound, lighting, fabrication, interiors, and event production.')); ?></h1>
-            <p class="hero-text"><?php echo esc_html(get_theme_mod('kolseg_hero_text', 'KOLSEG creates stages, backdrops, pavilions, studio content, portrait work, sound systems, lighting experiences, interiors, and launch-ready environments with the technical ability to deliver the spectacular.')); ?></p>
+            <p class="hero-text"><?php echo esc_html(get_theme_mod('kolseg_hero_text', 'KOLSEG creates stages, backdrops, pavilions, studio content, sound systems, lighting experiences, interiors, and launch-ready environments with the technical ability to deliver the spectacular.')); ?></p>
             <div class="hero-actions">
               <a class="button button-primary" href="<?php echo esc_url(kolseg_get_page_url_by_slug('services')); ?>">See Popular Categories</a>
               <a class="button button-secondary" href="<?php echo esc_url(kolseg_get_page_url_by_slug('services')); ?>">View All Services</a>
@@ -27,8 +27,8 @@
               <div class="hero-stack-overlay"><strong>Main Studio</strong><span>Live sessions, recordings, rehearsals, and intimate events.</span></div>
             </a>
             <a class="hero-stack-card" href="<?php echo esc_url(kolseg_get_page_url_by_slug('service-photography-videography')); ?>">
-              <img src="<?php echo esc_url(kolseg_get_theme_image('kolseg_hero_photo_card', 'photo-hanna-4.jpg')); ?>" alt="KOLSEG photography">
-              <div class="hero-stack-overlay"><strong>Photography / Videography</strong><span>Portraits, campaign looks, and visual storytelling.</span></div>
+              <img src="<?php echo esc_url(kolseg_get_theme_image('kolseg_hero_photo_card', 'hero-live-studio.jpg')); ?>" alt="KOLSEG media production">
+              <div class="hero-stack-overlay"><strong>Photography / Videography</strong><span>Studio content, visual coverage, and production-led storytelling.</span></div>
             </a>
             <a class="hero-stack-card" href="<?php echo esc_url(kolseg_get_page_url_by_slug('service-lighting')); ?>">
               <img src="<?php echo esc_url(kolseg_get_theme_image('kolseg_hero_light_card', 'lighting-stage.jpg')); ?>" alt="KOLSEG lighting service">
