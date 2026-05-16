@@ -172,15 +172,15 @@ function kolseg_render_primary_navigation() {
         </div>
         <div class="nav-dropdown-rail">
           <a class="nav-dropdown-card" href="<?php echo esc_url(kolseg_get_page_url_by_slug('service-photography-videography')); ?>">
-            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/hero-live-studio.jpg'); ?>" alt="KOLSEG media and studio">
+            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/kolseg-media-studio-hero.jpg'); ?>" alt="KOLSEG media and studio">
             <span><strong>Media</strong><em>Studio content, videography, production support, visual coverage</em></span>
           </a>
           <a class="nav-dropdown-card" href="<?php echo esc_url(kolseg_get_page_url_by_slug('service-music-audio')); ?>">
-            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/audio-production.jpg'); ?>" alt="KOLSEG audio and production">
+            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/kolseg-audio-control-room.jpg'); ?>" alt="KOLSEG audio and production">
             <span><strong>Production</strong><em>Sound, PA, recording, rehearsal, mixing and mastering</em></span>
           </a>
           <a class="nav-dropdown-card" href="<?php echo esc_url(kolseg_get_page_url_by_slug('service-design-space')); ?>">
-            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/stage-fabrication.jpg'); ?>" alt="KOLSEG design and fabrication">
+            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/kolseg-stage-installation.jpg'); ?>" alt="KOLSEG design and fabrication">
             <span><strong>Build &amp; Space</strong><em>Interiors, stage sets, fabrication, lighting, installations</em></span>
           </a>
         </div>
