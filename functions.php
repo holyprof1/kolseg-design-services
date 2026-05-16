@@ -91,14 +91,17 @@ function kolseg_is_seeded_page($post_id = 0) {
 }
 
 function kolseg_render_page_content() {
-    if (!kolseg_is_seeded_page()) {
+    $content_slug = kolseg_get_content_slug();
+    $seed_config = kolseg_get_seed_config_by_slug($content_slug);
+
+    if (empty($seed_config)) {
         the_content();
         return;
     }
 
     $raw_content = (string) get_post_field('post_content', get_the_ID());
-    if (kolseg_seeded_content_is_malformed($raw_content)) {
-        $fallback_content = kolseg_get_seed_source_content(kolseg_get_content_slug());
+    if (empty(trim($raw_content)) || kolseg_seeded_content_is_malformed($raw_content)) {
+        $fallback_content = kolseg_get_seed_source_content($content_slug);
         if (!empty($fallback_content)) {
             echo $fallback_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             return;
