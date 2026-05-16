@@ -415,6 +415,158 @@ textarea {
   padding: 92px 0 26px;
 }
 
+.page-hero-cinematic,
+.section-hero-cinematic {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background-image: var(--section-hero-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.page-hero-cinematic::before,
+.section-hero-cinematic::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(108deg, rgba(2, 2, 2, 0.92) 0%, rgba(2, 2, 2, 0.68) 42%, rgba(2, 2, 2, 0.9) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0.84) 100%);
+}
+
+.page-hero-cinematic::after,
+.section-hero-cinematic::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top right, rgba(216, 162, 77, 0.18), transparent 32%),
+    radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.04), transparent 26%);
+}
+
+.page-hero-cinematic {
+  display: flex;
+  align-items: end;
+  min-height: clamp(460px, 66vh, 760px);
+  padding: 0;
+}
+
+.page-hero-cinematic .page-hero-inner,
+.section-hero-cinematic > .container {
+  position: relative;
+  z-index: 2;
+}
+
+.page-hero-cinematic .page-hero-inner {
+  padding: 138px 0 56px;
+}
+
+.page-hero-cinematic .page-hero-inner p:last-child {
+  max-width: 58ch;
+}
+
+.section-hero-cinematic {
+  min-height: clamp(360px, 58vh, 680px);
+  padding: 0;
+}
+
+.section-hero-cinematic > .container {
+  padding: clamp(44px, 7vw, 88px) 0;
+}
+
+.section-hero-cinematic > .container:first-child {
+  padding-bottom: 24px;
+}
+
+.section-hero-cinematic > .container + .container {
+  padding-top: 0;
+}
+
+.section-hero-cinematic.section-hero-cinematic-compact {
+  min-height: clamp(320px, 48vh, 520px);
+}
+
+.section-hero-cinematic.section-hero-cinematic-compact > .container {
+  padding: clamp(38px, 5vw, 64px) 0;
+}
+
+.section-hero-cinematic.section-hero-cinematic-compact > .container:first-child {
+  padding-bottom: 20px;
+}
+
+.section-hero-cinematic .service-feature,
+.section-hero-cinematic .split-heading,
+.section-hero-cinematic .detail-grid,
+.section-hero-cinematic .gallery-grid {
+  position: relative;
+  z-index: 2;
+}
+
+.section-hero-cinematic .service-feature {
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.section-hero-cinematic .service-feature-media {
+  display: none;
+}
+
+.section-hero-cinematic .service-feature-copy {
+  max-width: min(760px, 100%);
+}
+
+.section-hero-cinematic .split-heading {
+  margin-bottom: 26px;
+}
+
+.section-hero-cinematic .detail-card,
+.section-hero-cinematic .gallery-card {
+  background: rgba(5, 5, 5, 0.48);
+  backdrop-filter: blur(8px);
+}
+
+.hero-bg-media-studio {
+  --section-hero-image: url("../images/luxurious_media_studio_lounge_and_control_room.png");
+}
+
+.hero-bg-event-production {
+  --section-hero-image: url("../images/cinematic_event_production_in_progress.png");
+}
+
+.hero-bg-podcast-studio {
+  --section-hero-image: url("../images/cozy_podcast_studio_setup.png");
+}
+
+.hero-bg-audio-studio {
+  --section-hero-image: url("../images/moody_and_sophisticated_recording_studio_design.png");
+}
+
+.hero-bg-stage-lighting {
+  --section-hero-image: url("../images/dramatic_concert_stage_lighting_setup.png");
+}
+
+.hero-bg-stage-installation {
+  --section-hero-image: url("../images/glamorous_art_deco_stage_setup.png");
+}
+
+.hero-bg-interior {
+  --section-hero-image: url("../images/luxurious_modern_lounge_interior_design.png");
+}
+
+.hero-bg-exhibition-booth {
+  --section-hero-image: url("../images/luxurious_gold_and_black_exhibition_booth.png");
+}
+
+.hero-bg-creative-services {
+  --section-hero-image: url("../images/sleek_designer_workspace_with_gold_accents.png");
+}
+
+.hero-bg-contact-cta {
+  --section-hero-image: url("../images/cinematic_studio_set_with_golden_lighting.png");
+}
+
 .page-hero h1 {
   max-width: 12ch;
   font-size: clamp(3rem, 5vw, 5.5rem);
@@ -1610,6 +1762,19 @@ textarea {
 }
 
 @media (max-width: 980px) {
+  .page-hero-cinematic {
+    min-height: 420px;
+  }
+
+  .page-hero-cinematic .page-hero-inner {
+    padding: 120px 0 44px;
+  }
+
+  .section-hero-cinematic > .container,
+  .section-hero-cinematic.section-hero-cinematic-compact > .container {
+    padding: 36px 0;
+  }
+
   .site-header {
     width: calc(100vw - 32px);
   }
@@ -1787,6 +1952,14 @@ textarea {
 }
 
 @media (max-width: 640px) {
+  .page-hero-cinematic {
+    min-height: 380px;
+  }
+
+  .page-hero-cinematic .page-hero-inner {
+    padding: 108px 0 40px;
+  }
+
   .section,
   .page-hero {
     padding: 78px 0 30px;
