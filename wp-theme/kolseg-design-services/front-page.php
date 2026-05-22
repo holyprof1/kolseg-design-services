@@ -8,7 +8,7 @@
     <?php else : ?>
       <section class="hero hero-home hero-home-clean">
         <div class="hero-media">
-          <img src="<?php echo esc_url(kolseg_get_theme_image('kolseg_hero_bg', 'services-drive/service-events-main.jpg')); ?>" alt="KOLSEG live studio setup">
+          <img src="<?php echo esc_url(kolseg_get_theme_image('kolseg_hero_bg', 'live-studio-main.jpg')); ?>" alt="KOLSEG live studio setup">
         </div>
         <div class="hero-overlay"></div>
         <div class="container hero-clean-grid">
@@ -23,15 +23,15 @@
           </div>
           <div class="hero-clean-stack reveal">
             <a class="hero-stack-card large" href="<?php echo esc_url(kolseg_get_page_url_by_slug('portfolio')); ?>">
-              <img src="<?php echo esc_url(kolseg_get_theme_image('kolseg_hero_main_card', 'services-drive/service-events-alt-1.jpg')); ?>" alt="KOLSEG live studio stage">
+              <img src="<?php echo esc_url(kolseg_get_theme_image('kolseg_hero_main_card', 'live-studio-stage.jpg')); ?>" alt="KOLSEG live studio stage">
               <div class="hero-stack-overlay"><strong>Main Studio</strong><span>Live sessions, recordings, rehearsals, and intimate events.</span></div>
             </a>
             <a class="hero-stack-card" href="<?php echo esc_url(kolseg_get_page_url_by_slug('service-photography-videography')); ?>">
-              <img src="<?php echo esc_url(kolseg_get_theme_image('kolseg_hero_photo_card', 'services-drive/service-photo-main.jpg')); ?>" alt="KOLSEG media production">
+              <img src="<?php echo esc_url(kolseg_get_theme_image('kolseg_hero_photo_card', 'hero-live-studio.jpg')); ?>" alt="KOLSEG media production">
               <div class="hero-stack-overlay"><strong>Photography / Videography</strong><span>Studio content, visual coverage, and production-led storytelling.</span></div>
             </a>
             <a class="hero-stack-card" href="<?php echo esc_url(kolseg_get_page_url_by_slug('service-lighting')); ?>">
-              <img src="<?php echo esc_url(kolseg_get_theme_image('kolseg_hero_light_card', 'services-drive/service-lighting-main.jpg')); ?>" alt="KOLSEG lighting service">
+              <img src="<?php echo esc_url(kolseg_get_theme_image('kolseg_hero_light_card', 'lighting-stage.jpg')); ?>" alt="KOLSEG lighting service">
               <div class="hero-stack-overlay"><strong>Lighting</strong><span>Concert mood, venue drama, and technical control.</span></div>
             </a>
           </div>

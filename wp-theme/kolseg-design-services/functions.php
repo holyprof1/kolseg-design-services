@@ -414,7 +414,7 @@ function kolseg_get_meta_description() {
 
 function kolseg_get_share_image() {
     if (is_front_page()) {
-        return kolseg_get_theme_image('kolseg_hero_bg', 'services-drive/service-events-main.jpg');
+        return kolseg_get_theme_image('kolseg_hero_bg', 'live-studio-main.jpg');
     }
 
     if (is_singular() && has_post_thumbnail()) {
@@ -424,7 +424,7 @@ function kolseg_get_share_image() {
         }
     }
 
-    return kolseg_get_theme_image('kolseg_hero_bg', 'services-drive/service-events-main.jpg');
+    return kolseg_get_theme_image('kolseg_hero_bg', 'live-studio-main.jpg');
 }
 
 function kolseg_get_schema_logo() {

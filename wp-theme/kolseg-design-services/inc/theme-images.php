@@ -19,7 +19,7 @@ function kolseg_get_theme_image_catalog() {
                 ),
                 'kolseg_nav_build_image' => array(
                     'label' => __('Services Menu Build Preview', 'kolseg-design-services'),
-                    'fallback' => 'drive-extended/event-aso-3.jpg',
+                    'fallback' => 'stage-fabrication-wide.jpg',
                 ),
             ),
         ),
@@ -29,19 +29,19 @@ function kolseg_get_theme_image_catalog() {
             'images' => array(
                 'kolseg_hero_bg' => array(
                     'label' => __('Hero Background', 'kolseg-design-services'),
-                    'fallback' => 'services-drive/service-events-main.jpg',
+                    'fallback' => 'live-studio-main.jpg',
                 ),
                 'kolseg_hero_main_card' => array(
                     'label' => __('Hero Main Feature', 'kolseg-design-services'),
-                    'fallback' => 'services-drive/service-events-alt-1.jpg',
+                    'fallback' => 'live-studio-stage.jpg',
                 ),
                 'kolseg_hero_photo_card' => array(
                     'label' => __('Hero Media Card', 'kolseg-design-services'),
-                    'fallback' => 'services-drive/service-photo-main.jpg',
+                    'fallback' => 'hero-live-studio.jpg',
                 ),
                 'kolseg_hero_light_card' => array(
                     'label' => __('Hero Lighting Card', 'kolseg-design-services'),
-                    'fallback' => 'services-drive/service-lighting-main.jpg',
+                    'fallback' => 'lighting-stage.jpg',
                 ),
                 'kolseg_home_photo_portrait_image' => array(
                     'label' => __('Homepage Portrait Feature', 'kolseg-design-services'),
@@ -57,7 +57,7 @@ function kolseg_get_theme_image_catalog() {
                 ),
                 'kolseg_home_video_youtube_image' => array(
                     'label' => __('Homepage Featured Video Card 2', 'kolseg-design-services'),
-                    'fallback' => 'drive-extended/audio-session-2.jpg',
+                    'fallback' => 'event-lighting.jpg',
                 ),
                 'kolseg_home_projects_showcase_image' => array(
                     'label' => __('Homepage Project Showcase 1', 'kolseg-design-services'),
@@ -179,7 +179,11 @@ function kolseg_get_theme_image_catalog() {
                 ),
                 'kolseg_audio_gallery_content_image' => array(
                     'label' => __('Audio For Content Detail', 'kolseg-design-services'),
-                    'fallback' => 'drive-extended/photo-retouched-fashion.jpg',
+                    'fallback' => 'services-drive/service-audio-alt-2.jpg',
+                ),
+                'kolseg_audio_gallery_performance_image' => array(
+                    'label' => __('Audio Performance Detail', 'kolseg-design-services'),
+                    'fallback' => 'live-studio-stage.jpg',
                 ),
                 'kolseg_design_primary_image' => array(
                     'label' => __('Design / Fabrication Primary', 'kolseg-design-services'),
@@ -231,11 +235,11 @@ function kolseg_get_theme_image_catalog() {
                 ),
                 'kolseg_contracts_gallery_facility_image' => array(
                     'label' => __('Contracts Facility Detail', 'kolseg-design-services'),
-                    'fallback' => 'drive-extended/podcast-setup-6.jpg',
+                    'fallback' => 'live-studio-main.jpg',
                 ),
                 'kolseg_technical_primary_image' => array(
                     'label' => __('Technical Support Primary', 'kolseg-design-services'),
-                    'fallback' => 'services-drive/service-technical-main.jpg',
+                    'fallback' => 'services-drive/service-sound-alt-1.jpg',
                 ),
                 'kolseg_portfolio_video_vimeo_image' => array(
                     'label' => __('Portfolio Media Promo 1', 'kolseg-design-services'),
