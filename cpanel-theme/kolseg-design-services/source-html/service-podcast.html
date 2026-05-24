@@ -58,7 +58,7 @@
       <section class="section section-dark">
         <div class="container service-stack">
           <article class="service-feature reveal">
-            <div class="service-feature-media"><img src="assets/images/podcast-flyer.jpg" alt="KOLSEG podcast service"></div>
+            <div class="service-feature-media"><img src="{{kolseg_image:kolseg_podcast_primary_image}}" alt="KOLSEG podcast service"></div>
             <div class="service-feature-copy">
               <h2>Studio-backed conversations that feel polished and ready to release.</h2>
               <p>From one-off episodes to recurring branded content, Kolseg can support recording, technical setup, host comfort, sound capture, and clean production flow so the final piece feels clear and credible.</p>
@@ -76,27 +76,42 @@
           </div>
           <a class="text-link" href="contact.html">Book a session</a>
         </div>
-        <div class="container gallery-grid featured-grid">
+        <div class="container gallery-grid featured-grid gallery-grid-framed">
           <article class="gallery-card tall reveal">
-            <img src="assets/images/contact-video-cover.jpg" alt="KOLSEG studio camera and podcast setup">
+            <img src="{{kolseg_image:kolseg_podcast_gallery_set_image}}" alt="KOLSEG polished podcast studio setup">
             <span class="gallery-overlay"><strong>Video-Ready Setup</strong><em>Ideal for visual podcasts and content clips</em></span>
           </article>
           <article class="gallery-card reveal">
-            <img src="assets/images/live-studio-main.jpg" alt="KOLSEG live studio recording space">
+            <img src="{{kolseg_image:kolseg_media_cover_image}}" alt="KOLSEG live studio recording space">
             <span class="gallery-overlay"><strong>Live Room Access</strong><em>Controlled environment for hosts and guests</em></span>
           </article>
           <article class="gallery-card reveal">
-            <img src="assets/images/audio-production-studio.jpg" alt="KOLSEG audio recording support">
+            <img src="{{kolseg_image:kolseg_audio_primary_image}}" alt="KOLSEG audio recording support">
             <span class="gallery-overlay"><strong>Audio Control</strong><em>Clean sound capture and session monitoring</em></span>
           </article>
           <article class="gallery-card wide reveal">
-            <img src="assets/images/video-thumb-youtube.jpg" alt="KOLSEG podcast content publishing">
+            <img src="{{kolseg_image:kolseg_podcast_gallery_stage_image}}" alt="KOLSEG talk-show style podcast set">
             <span class="gallery-overlay"><strong>Publishable Content</strong><em>Episodes, short clips, and promo cuts</em></span>
           </article>
           <article class="gallery-card wide reveal">
-            <img src="assets/images/video-thumb-vimeo.png" alt="KOLSEG studio production visuals">
+            <img src="{{kolseg_image:kolseg_media_secondary_image}}" alt="KOLSEG studio production visuals">
             <span class="gallery-overlay"><strong>Brand Extensions</strong><em>Podcast sessions can double as content days</em></span>
           </article>
+        </div>
+      </section>
+
+      <section class="section section-dark">
+        <div class="container media-marquee-wrap reveal">
+          <div class="media-marquee" data-direction="reverse" style="--marquee-duration: 42s;">
+            <div class="media-marquee-track">
+              <article class="media-marquee-card"><img src="{{kolseg_image:kolseg_podcast_primary_image}}" alt="KOLSEG podcast strip visual"><span class="gallery-overlay"><strong>Main Setup</strong><em>Podcast sessions with studio polish</em></span></article>
+              <article class="media-marquee-card"><img src="{{kolseg_image:kolseg_podcast_gallery_set_image}}" alt="KOLSEG podcast studio strip visual"><span class="gallery-overlay"><strong>Studio Comfort</strong><em>Clean rooms for hosts and guests</em></span></article>
+              <article class="media-marquee-card"><img src="{{kolseg_image:kolseg_podcast_gallery_stage_image}}" alt="KOLSEG podcast set strip visual"><span class="gallery-overlay"><strong>Visual Sets</strong><em>Talk-show style backgrounds and framing</em></span></article>
+              <article class="media-marquee-card is-wide"><img src="{{kolseg_image:kolseg_contact_support_secondary_image}}" alt="KOLSEG podcast content strip visual"><span class="gallery-overlay"><strong>Content Days</strong><em>Episodes, clips, and promotional assets together</em></span></article>
+              <article class="media-marquee-card"><img src="{{kolseg_image:kolseg_audio_primary_image}}" alt="KOLSEG audio support strip visual"><span class="gallery-overlay"><strong>Audio Control</strong><em>Capture, monitoring, and release readiness</em></span></article>
+              <article class="media-marquee-card"><img src="{{kolseg_image:kolseg_media_secondary_image}}" alt="KOLSEG podcast production strip visual"><span class="gallery-overlay"><strong>Production Support</strong><em>Visual and technical support in one lane</em></span></article>
+            </div>
+          </div>
         </div>
       </section>
 

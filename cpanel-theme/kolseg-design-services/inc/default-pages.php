@@ -193,11 +193,12 @@ function kolseg_existing_page_needs_seed_refresh($page, $force_replace) {
 function kolseg_render_primary_navigation() {
     $page_key = kolseg_get_page_key();
     $service_page_url = kolseg_get_page_url_by_slug('services');
+    $services_open = 'services' === $page_key;
     ?>
     <a class="<?php echo 'home' === $page_key ? 'is-active' : ''; ?>" href="<?php echo esc_url(home_url('/')); ?>">Home</a>
-    <div class="nav-dropdown <?php echo 'services' === $page_key ? 'is-open' : ''; ?>">
-      <a href="<?php echo esc_url($service_page_url); ?>" class="nav-dropdown-link <?php echo 'services' === $page_key ? 'is-active' : ''; ?>">Services</a>
-      <div class="nav-dropdown-panel">
+    <div class="nav-dropdown <?php echo $services_open ? 'is-open' : ''; ?>">
+      <a href="<?php echo esc_url($service_page_url); ?>" class="nav-dropdown-link <?php echo $services_open ? 'is-active' : ''; ?>" aria-haspopup="true" aria-expanded="<?php echo $services_open ? 'true' : 'false'; ?>" aria-controls="services-navigation-panel">Services</a>
+      <div class="nav-dropdown-panel" id="services-navigation-panel">
         <div class="nav-dropdown-intro">
           <p class="eyebrow">Full Service</p>
           <h3>Creative services, production, build, and technical support in one brand.</h3>
@@ -206,15 +207,15 @@ function kolseg_render_primary_navigation() {
         </div>
         <div class="nav-dropdown-rail">
           <a class="nav-dropdown-card" href="<?php echo esc_url(kolseg_get_page_url_by_slug('service-photography-videography')); ?>">
-            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/hero-live-studio.jpg'); ?>" alt="KOLSEG media and studio">
+            <img src="<?php echo esc_url(kolseg_get_theme_image('kolseg_nav_media_image')); ?>" alt="KOLSEG media and studio">
             <span><strong>Media</strong><em>Studio content, videography, production support, visual coverage</em></span>
           </a>
           <a class="nav-dropdown-card" href="<?php echo esc_url(kolseg_get_page_url_by_slug('service-music-audio')); ?>">
-            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/audio-production.jpg'); ?>" alt="KOLSEG audio and production">
+            <img src="<?php echo esc_url(kolseg_get_theme_image('kolseg_nav_production_image')); ?>" alt="KOLSEG audio and production">
             <span><strong>Production</strong><em>Sound, PA, recording, rehearsal, mixing and mastering</em></span>
           </a>
           <a class="nav-dropdown-card" href="<?php echo esc_url(kolseg_get_page_url_by_slug('service-design-space')); ?>">
-            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/stage-fabrication.jpg'); ?>" alt="KOLSEG design and fabrication">
+            <img src="<?php echo esc_url(kolseg_get_theme_image('kolseg_nav_build_image')); ?>" alt="KOLSEG design and fabrication">
             <span><strong>Build &amp; Space</strong><em>Interiors, stage sets, fabrication, lighting, installations</em></span>
           </a>
         </div>
@@ -377,12 +378,17 @@ function kolseg_transform_imported_html($content) {
     $allowed_html['a']['data-video-provider'] = true;
     $allowed_html['a']['data-video-id'] = true;
     $allowed_html['a']['aria-label'] = true;
+    $allowed_html['a']['aria-haspopup'] = true;
+    $allowed_html['a']['aria-expanded'] = true;
+    $allowed_html['a']['aria-controls'] = true;
     $allowed_html['article']['data-category'] = true;
+    $allowed_html['section']['style'] = true;
 
     $content = str_replace('src="assets/', 'src="' . esc_url($theme_assets_url), $content);
     $content = str_replace("src='assets/", "src='" . esc_url($theme_assets_url), $content);
     $content = str_replace('href="assets/', 'href="' . esc_url($theme_assets_url), $content);
     $content = str_replace("href='assets/", "href='" . esc_url($theme_assets_url), $content);
+    $content = kolseg_replace_theme_image_tokens($content);
 
     foreach ($page_map as $slug => $config) {
         $page_url = kolseg_get_page_url_by_slug($slug);

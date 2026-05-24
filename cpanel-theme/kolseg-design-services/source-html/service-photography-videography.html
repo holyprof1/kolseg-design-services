@@ -58,7 +58,7 @@
       <section class="section section-dark">
         <div class="container service-stack">
           <article class="service-feature reveal">
-            <div class="service-feature-media"><img src="assets/images/hero-live-studio.jpg" alt="KOLSEG photography and videography"></div>
+            <div class="service-feature-media"><img src="{{kolseg_image:kolseg_media_primary_image}}" alt="KOLSEG photography and videography"></div>
             <div class="service-feature-copy">
               <h2>Image-led work with strong control, coverage, and delivery.</h2>
               <p>Whether it is a campaign shoot, event recap, studio content session, or branded media package, Kolseg combines production execution and post-production polish so the visuals feel commercially useful, not just attractive.</p>
@@ -76,27 +76,42 @@
           </div>
           <a class="text-link" href="portfolio.html">Browse portfolio</a>
         </div>
-        <div class="container gallery-grid featured-grid">
+        <div class="container gallery-grid featured-grid gallery-grid-framed">
           <article class="gallery-card tall reveal">
-            <img src="assets/images/live-studio-main.jpg" alt="KOLSEG studio content setup">
+            <img src="{{kolseg_image:kolseg_media_cover_image}}" alt="KOLSEG studio content setup">
             <span class="gallery-overlay"><strong>Studio Setup</strong><em>Controlled content environment and lighting</em></span>
           </article>
           <article class="gallery-card reveal">
-            <img src="assets/images/audio-production.jpg" alt="KOLSEG creative production support">
+            <img src="{{kolseg_image:kolseg_photo_gallery_campaign_image}}" alt="KOLSEG creative campaign portrait">
             <span class="gallery-overlay"><strong>Production Support</strong><em>Media capture with technical backing</em></span>
           </article>
           <article class="gallery-card reveal">
-            <img src="assets/images/live-studio-stage.jpg" alt="KOLSEG event documentation coverage">
+            <img src="{{kolseg_image:kolseg_media_detail_image}}" alt="KOLSEG event documentation coverage">
             <span class="gallery-overlay"><strong>Event Documentation</strong><em>Live coverage and branded recaps</em></span>
           </article>
           <article class="gallery-card wide reveal">
-            <img src="assets/images/lighting-stage.jpg" alt="KOLSEG promotional lighting scene">
+            <img src="{{kolseg_image:kolseg_photo_gallery_brand_image}}" alt="KOLSEG promotional brand portrait">
             <span class="gallery-overlay"><strong>Promotional Visuals</strong><em>Campaign mood, venue drama, and visual storytelling</em></span>
           </article>
           <article class="gallery-card wide reveal">
-            <img src="assets/images/stage-fabrication-main.jpg" alt="KOLSEG branded visual storytelling">
+            <img src="{{kolseg_image:kolseg_photo_gallery_editorial_image}}" alt="KOLSEG editorial fashion storytelling">
             <span class="gallery-overlay"><strong>Branded Storytelling</strong><em>Images designed to feel structured and intentional</em></span>
           </article>
+        </div>
+      </section>
+
+      <section class="section section-dark">
+        <div class="container media-marquee-wrap reveal">
+          <div class="media-marquee" style="--marquee-duration: 43s;">
+            <div class="media-marquee-track">
+              <article class="media-marquee-card"><img src="{{kolseg_image:kolseg_media_primary_image}}" alt="KOLSEG photography strip visual"><span class="gallery-overlay"><strong>Studio Shoots</strong><em>Portraits, campaigns, and content days</em></span></article>
+              <article class="media-marquee-card"><img src="{{kolseg_image:kolseg_home_photo_portrait_image}}" alt="KOLSEG portrait strip visual"><span class="gallery-overlay"><strong>Portrait Focus</strong><em>Beauty-led and client-facing imagery</em></span></article>
+              <article class="media-marquee-card"><img src="{{kolseg_image:kolseg_photo_gallery_campaign_image}}" alt="KOLSEG campaign strip visual"><span class="gallery-overlay"><strong>Campaign Cuts</strong><em>Artist and fashion-forward image making</em></span></article>
+              <article class="media-marquee-card"><img src="{{kolseg_image:kolseg_photo_gallery_brand_image}}" alt="KOLSEG branded photo strip visual"><span class="gallery-overlay"><strong>Brand Presence</strong><em>Sharper styling for commercial stories</em></span></article>
+              <article class="media-marquee-card is-wide"><img src="{{kolseg_image:kolseg_photo_gallery_editorial_image}}" alt="KOLSEG editorial strip visual"><span class="gallery-overlay"><strong>Editorial Storytelling</strong><em>Confident, polished, and commercially usable</em></span></article>
+              <article class="media-marquee-card"><img src="{{kolseg_image:kolseg_media_detail_image}}" alt="KOLSEG production workflow strip visual"><span class="gallery-overlay"><strong>Delivery Flow</strong><em>Coverage, edits, and publish-ready output</em></span></article>
+            </div>
+          </div>
         </div>
       </section>
 

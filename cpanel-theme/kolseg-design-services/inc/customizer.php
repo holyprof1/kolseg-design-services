@@ -54,26 +54,39 @@ function kolseg_customize_register($wp_customize) {
     $wp_customize->add_control('kolseg_facebook_url', array('label' => __('Facebook URL', 'kolseg-design-services'), 'section' => 'kolseg_home', 'type' => 'url'));
     $wp_customize->add_control('kolseg_youtube_url', array('label' => __('YouTube URL', 'kolseg-design-services'), 'section' => 'kolseg_home', 'type' => 'url'));
 
-    $images = array(
-        'kolseg_hero_bg' => array('label' => __('Hero Background', 'kolseg-design-services'), 'fallback' => 'live-studio-main.jpg'),
-        'kolseg_hero_main_card' => array('label' => __('Hero Main Studio Image', 'kolseg-design-services'), 'fallback' => 'live-studio-stage.jpg'),
-        'kolseg_hero_photo_card' => array('label' => __('Hero Media Image', 'kolseg-design-services'), 'fallback' => 'hero-live-studio.jpg'),
-        'kolseg_hero_light_card' => array('label' => __('Hero Lighting Image', 'kolseg-design-services'), 'fallback' => 'lighting-stage.jpg'),
-    );
-
-    foreach ($images as $setting => $args) {
-        $wp_customize->add_setting($setting, array('sanitize_callback' => 'esc_url_raw'));
-        $wp_customize->add_control(
-            new WP_Customize_Image_Control(
-                $wp_customize,
-                $setting,
-                array(
-                    'label' => $args['label'],
-                    'section' => 'kolseg_home',
-                    'settings' => $setting,
-                )
+    foreach (kolseg_get_theme_image_catalog() as $section_key => $section) {
+        $wp_customize->add_section(
+            $section_key,
+            array(
+                'title' => $section['title'],
+                'priority' => $section['priority'],
             )
         );
+
+        if (empty($section['images']) || !is_array($section['images'])) {
+            continue;
+        }
+
+        foreach ($section['images'] as $setting => $args) {
+            $wp_customize->add_setting(
+                $setting,
+                array(
+                    'sanitize_callback' => 'esc_url_raw',
+                )
+            );
+
+            $wp_customize->add_control(
+                new WP_Customize_Image_Control(
+                    $wp_customize,
+                    $setting,
+                    array(
+                        'label' => $args['label'],
+                        'section' => $section_key,
+                        'settings' => $setting,
+                    )
+                )
+            );
+        }
     }
 }
 add_action('customize_register', 'kolseg_customize_register');

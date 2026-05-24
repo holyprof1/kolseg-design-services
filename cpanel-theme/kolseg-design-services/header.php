@@ -25,11 +25,11 @@
         <small><?php bloginfo('description'); ?></small>
       </span>
     </a>
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-label="Open navigation">
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation">
       <span></span>
       <span></span>
     </button>
-    <nav class="site-nav">
+    <nav class="site-nav" id="primary-navigation">
       <?php kolseg_render_primary_navigation(); ?>
     </nav>
   </header>

@@ -1,15 +1,54 @@
 const body = document.body;
 const nav = document.querySelector(".site-nav");
 const menuToggle = document.querySelector(".menu-toggle");
+const navDropdowns = nav ? [...nav.querySelectorAll(".nav-dropdown")] : [];
+
+const setBodyNavState = (open) => {
+  body.classList.toggle("nav-open", open && window.innerWidth <= 980);
+};
+
+const setDropdownExpanded = (dropdown, expanded) => {
+  const trigger = dropdown.querySelector(".nav-dropdown-link");
+  if (trigger) {
+    trigger.setAttribute("aria-expanded", String(expanded));
+  }
+};
+
+const closeDropdowns = () => {
+  navDropdowns.forEach((dropdown) => {
+    dropdown.classList.remove("is-open");
+    setDropdownExpanded(dropdown, false);
+  });
+};
+
+const closeMenu = () => {
+  if (nav) {
+    nav.classList.remove("is-open");
+  }
+
+  if (menuToggle) {
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.setAttribute("aria-label", "Open navigation");
+  }
+
+  setBodyNavState(false);
+  closeDropdowns();
+};
+
+navDropdowns.forEach((dropdown) => {
+  setDropdownExpanded(dropdown, dropdown.classList.contains("is-open"));
+});
 
 if (menuToggle && nav) {
   menuToggle.addEventListener("click", () => {
-    const open = nav.classList.toggle("is-open");
+    const open = !nav.classList.contains("is-open");
+    nav.classList.toggle("is-open", open);
     menuToggle.setAttribute("aria-expanded", String(open));
+    menuToggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+    setBodyNavState(open);
+
     if (!open) {
-      nav.querySelectorAll(".nav-dropdown").forEach((dropdown) => {
-        dropdown.classList.remove("is-open");
-      });
+      closeDropdowns();
     }
   });
 
@@ -18,13 +57,11 @@ if (menuToggle && nav) {
       if (link.classList.contains("nav-dropdown-link") && window.innerWidth <= 980) {
         return;
       }
-      nav.classList.remove("is-open");
-      menuToggle.setAttribute("aria-expanded", "false");
+
+      closeMenu();
     });
   });
 }
-
-const navDropdowns = nav ? [...nav.querySelectorAll(".nav-dropdown")] : [];
 
 navDropdowns.forEach((dropdown) => {
   const trigger = dropdown.querySelector(".nav-dropdown-link");
@@ -39,14 +76,16 @@ navDropdowns.forEach((dropdown) => {
 
     event.preventDefault();
     const willOpen = !dropdown.classList.contains("is-open");
-    navDropdowns.forEach((item) => item.classList.remove("is-open"));
+    closeDropdowns();
     dropdown.classList.toggle("is-open", willOpen);
+    setDropdownExpanded(dropdown, willOpen);
   });
 });
 
 window.addEventListener("resize", () => {
   if (window.innerWidth > 980) {
-    navDropdowns.forEach((dropdown) => dropdown.classList.remove("is-open"));
+    closeMenu();
+    setBodyNavState(false);
   }
 });
 
@@ -55,8 +94,14 @@ document.addEventListener("click", (event) => {
     return;
   }
 
-  if (!nav.contains(event.target)) {
-    navDropdowns.forEach((dropdown) => dropdown.classList.remove("is-open"));
+  if (!nav.contains(event.target) && (!menuToggle || !menuToggle.contains(event.target))) {
+    closeMenu();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeMenu();
   }
 });
 
@@ -78,10 +123,7 @@ document.querySelectorAll(".site-nav a").forEach((link) => {
 if (nav) {
   nav.querySelectorAll(".nav-dropdown-panel a").forEach((link) => {
     link.addEventListener("click", () => {
-      nav.classList.remove("is-open");
-      if (menuToggle) {
-        menuToggle.setAttribute("aria-expanded", "false");
-      }
+      closeMenu();
     });
   });
 }
@@ -102,6 +144,31 @@ const revealObserver = new IntersectionObserver(
 );
 
 revealItems.forEach((item) => revealObserver.observe(item));
+
+const marqueeTracks = document.querySelectorAll(".media-marquee-track");
+marqueeTracks.forEach((track) => {
+  const marquee = track.closest(".media-marquee");
+  if (!marquee || track.dataset.enhanced === "true") {
+    return;
+  }
+
+  const cards = [...track.children];
+  if (!cards.length) {
+    return;
+  }
+
+  cards.forEach((card) => {
+    const clone = card.cloneNode(true);
+    clone.setAttribute("aria-hidden", "true");
+    clone.querySelectorAll("a, button").forEach((node) => {
+      node.setAttribute("tabindex", "-1");
+    });
+    track.appendChild(clone);
+  });
+
+  track.dataset.enhanced = "true";
+  marquee.classList.add("is-ready");
+});
 
 const filterButtons = document.querySelectorAll("[data-filter]");
 const portfolioCards = document.querySelectorAll(".portfolio-card");

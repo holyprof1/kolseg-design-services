@@ -3,6 +3,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+require_once get_template_directory() . '/inc/theme-images.php';
 require_once get_template_directory() . '/inc/customizer.php';
 require_once get_template_directory() . '/inc/default-pages.php';
 
@@ -357,12 +358,18 @@ function kolseg_recover_missing_seed_page_request() {
 }
 add_action('template_redirect', 'kolseg_recover_missing_seed_page_request');
 
-function kolseg_get_theme_image($setting, $fallback) {
+function kolseg_get_theme_image($setting, $fallback = '') {
     $image = get_theme_mod($setting);
     if (!empty($image)) {
         return $image;
     }
-    return get_template_directory_uri() . '/assets/images/' . $fallback;
+
+    $fallback_image = kolseg_get_theme_image_fallback($setting, $fallback);
+    if (!empty($fallback_image)) {
+        return $fallback_image;
+    }
+
+    return '';
 }
 
 function kolseg_primary_menu_fallback() {
@@ -417,7 +424,7 @@ function kolseg_get_share_image() {
         }
     }
 
-    return get_template_directory_uri() . '/assets/images/live-studio-main.jpg';
+    return kolseg_get_theme_image('kolseg_hero_bg', 'live-studio-main.jpg');
 }
 
 function kolseg_get_schema_logo() {

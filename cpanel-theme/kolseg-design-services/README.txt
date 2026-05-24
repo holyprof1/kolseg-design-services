@@ -5,6 +5,7 @@ What is included:
 - Auto-created WordPress pages seeded from the mirrored Kolseg HTML files on theme activation
 - Editable page content directly inside WordPress Pages so text, sections, links, and images can be changed without editing PHP
 - Editable SEO description, business location, and social profile fields through the WordPress Customizer
+- WordPress Customizer image groups for navigation previews, homepage showcases, service/portfolio imagery, and brand-story visuals
 - Standard page templates that fall back safely if a page has not been seeded yet
 - Built-in meta description, Open Graph, Twitter card, and LocalBusiness schema output
 
@@ -25,4 +26,5 @@ Suggested setup:
    - `Set Home As Front Page`
    - `Force Refresh Seeded Pages`
 6. Use the Customizer to update phone numbers, business details, SEO description, and homepage fallback images.
-7. Add featured images on key pages for stronger link previews and social sharing.
+7. Use `Appearance > Customize` to swap any seeded gallery, marquee, hero, or promo image from the WordPress media library.
+8. Add featured images on key pages for stronger link previews and social sharing.
