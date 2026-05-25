@@ -1,0 +1,6 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/myvalcom/kolseg.com/wp-content/themes/kolseg-design-services/
+    - /bin/mkdir -p $DEPLOYPATH
+    - /bin/rsync -a --delete cpanel-theme/kolseg-design-services/ $DEPLOYPATH
