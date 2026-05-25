@@ -141,7 +141,7 @@ function kolseg_render_page_content() {
     }
 
     $raw_content = (string) get_post_field('post_content', get_the_ID());
-    if (empty(trim($raw_content)) || kolseg_seeded_content_is_malformed($raw_content)) {
+    if (kolseg_seeded_page_should_use_source_fallback($content_slug, $raw_content)) {
         $fallback_content = kolseg_get_seed_source_content($content_slug);
         if (!empty($fallback_content)) {
             echo $fallback_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -168,6 +168,58 @@ function kolseg_get_content_slug() {
     }
 
     return '';
+}
+
+function kolseg_seeded_page_should_use_source_fallback($content_slug, $raw_content) {
+    if (empty(kolseg_get_seed_config_by_slug($content_slug))) {
+        return false;
+    }
+
+    if (empty(trim($raw_content)) || kolseg_seeded_content_is_malformed($raw_content) || kolseg_seeded_content_looks_like_builder_payload($raw_content)) {
+        return true;
+    }
+
+    $rendered_content = apply_filters('the_content', $raw_content);
+    return kolseg_rendered_seed_content_is_empty($rendered_content);
+}
+
+function kolseg_seeded_content_looks_like_builder_payload($content) {
+    if (empty($content)) {
+        return false;
+    }
+
+    $markers = array(
+        '[elementor-template',
+        '[elementor-template id=',
+        'elementor-widget',
+        'elementor-section',
+        'vc_row',
+        'vc_column',
+        'et_pb_section',
+        'fl-builder-content',
+        'fusion_builder_container',
+    );
+
+    foreach ($markers as $marker) {
+        if (false !== stripos($content, $marker)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function kolseg_rendered_seed_content_is_empty($content) {
+    if (empty($content)) {
+        return true;
+    }
+
+    $content = preg_replace('/<!--.*?-->/s', '', $content);
+    $content = preg_replace('/\[(\/?)[^\]]+\]/', '', $content);
+    $content = html_entity_decode(wp_strip_all_tags((string) $content), ENT_QUOTES, 'UTF-8');
+    $content = preg_replace('/\s+/u', '', $content);
+
+    return empty($content);
 }
 
 function kolseg_get_seed_document_title($title) {

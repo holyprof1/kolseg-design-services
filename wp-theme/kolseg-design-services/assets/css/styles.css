@@ -1889,12 +1889,17 @@ textarea {
 }
 
 .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+body.reveal-enabled .reveal {
   opacity: 0;
   transform: translateY(28px) scale(0.98);
   transition: opacity 700ms ease, transform 700ms ease;
 }
 
-.reveal.is-visible {
+body.reveal-enabled .reveal.is-visible {
   opacity: 1;
   transform: translateY(0) scale(1);
 }
