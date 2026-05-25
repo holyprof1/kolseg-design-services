@@ -454,6 +454,48 @@ function kolseg_register_setup_page() {
 }
 add_action('admin_menu', 'kolseg_register_setup_page');
 
+function kolseg_get_customizer_section_url($section_id) {
+    return admin_url('customize.php?autofocus[section]=' . rawurlencode($section_id));
+}
+
+function kolseg_get_setup_preview_links() {
+    return array(
+        __('Home Preview', 'kolseg-design-services') => home_url('/'),
+        __('Services Preview', 'kolseg-design-services') => kolseg_get_page_url_by_slug('services'),
+        __('Portfolio Preview', 'kolseg-design-services') => kolseg_get_page_url_by_slug('portfolio'),
+        __('Contact Preview', 'kolseg-design-services') => kolseg_get_page_url_by_slug('contact'),
+    );
+}
+
+function kolseg_register_admin_bar_links($wp_admin_bar) {
+    if (!is_admin_bar_showing() || !current_user_can('edit_theme_options')) {
+        return;
+    }
+
+    $wp_admin_bar->add_menu(
+        array(
+            'id'    => 'kolseg-images',
+            'title' => __('Kolseg Images', 'kolseg-design-services'),
+            'href'  => admin_url('themes.php?page=kolseg-setup'),
+        )
+    );
+
+    foreach (kolseg_get_theme_image_catalog() as $section_id => $section) {
+        $wp_admin_bar->add_menu(
+            array(
+                'parent' => 'kolseg-images',
+                'id'     => 'kolseg-images-' . sanitize_html_class($section_id),
+                'title'  => $section['title'],
+                'href'   => kolseg_get_customizer_section_url($section_id),
+                'meta'   => array(
+                    'target' => '_blank',
+                ),
+            )
+        );
+    }
+}
+add_action('admin_bar_menu', 'kolseg_register_admin_bar_links', 90);
+
 function kolseg_handle_setup_actions() {
     if (!is_admin() || !current_user_can('manage_options')) {
         return;
@@ -541,6 +583,23 @@ function kolseg_render_setup_page() {
         </a>
       </p>
       <p><?php esc_html_e('Force Refresh will replace the content of existing Kolseg seeded pages with the bundled HTML version. Use it when the site is still showing old homepage content from a previous builder setup.', 'kolseg-design-services'); ?></p>
+      <hr />
+      <h2><?php esc_html_e('Image Editing Shortcuts', 'kolseg-design-services'); ?></h2>
+      <p><?php esc_html_e('Open image controls in one tab and keep the frontend open in another tab so you can swap visuals quickly.', 'kolseg-design-services'); ?></p>
+      <p>
+        <?php foreach (kolseg_get_theme_image_catalog() as $section_id => $section) : ?>
+          <a class="button" href="<?php echo esc_url(kolseg_get_customizer_section_url($section_id)); ?>" target="_blank" rel="noopener noreferrer">
+            <?php echo esc_html($section['title']); ?>
+          </a>
+        <?php endforeach; ?>
+      </p>
+      <p>
+        <?php foreach (kolseg_get_setup_preview_links() as $label => $url) : ?>
+          <a class="button button-secondary" href="<?php echo esc_url($url); ?>" target="_blank" rel="noopener noreferrer">
+            <?php echo esc_html($label); ?>
+          </a>
+        <?php endforeach; ?>
+      </p>
     </div>
     <?php
 }

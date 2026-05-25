@@ -149,7 +149,12 @@ if (nav) {
 }
 
 const revealItems = document.querySelectorAll(".reveal");
-if ("IntersectionObserver" in window) {
+const revealAnimationsEnabled =
+  "IntersectionObserver" in window &&
+  window.innerWidth > 767 &&
+  !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+if (revealAnimationsEnabled) {
   body.classList.add("reveal-enabled");
   const revealObserver = new IntersectionObserver(
     (entries) => {
@@ -161,7 +166,8 @@ if ("IntersectionObserver" in window) {
       });
     },
     {
-      threshold: 0.18,
+      threshold: 0.08,
+      rootMargin: "0px 0px -10% 0px",
     }
   );
 
