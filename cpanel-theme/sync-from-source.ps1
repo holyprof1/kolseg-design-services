@@ -3,16 +3,11 @@ param(
     [string]$Target = "cpanel-theme/kolseg-design-services"
 )
 
-$sourcePath = Join-Path (Get-Location) $Source
-$targetPath = Join-Path (Get-Location) $Target
+$repoRoot = Get-Location
+$buildScript = Join-Path $repoRoot "build-theme-package.ps1"
 
-if (-not (Test-Path $sourcePath)) {
-    throw "Source theme folder not found: $sourcePath"
+if (-not (Test-Path $buildScript)) {
+    throw "Build script not found: $buildScript"
 }
 
-if (Test-Path $targetPath) {
-    Remove-Item $targetPath -Recurse -Force
-}
-
-Copy-Item $sourcePath $targetPath -Recurse
-Write-Host "Synced cPanel deploy theme to $targetPath"
+powershell -ExecutionPolicy Bypass -File $buildScript -Source $Source -DeployTarget $Target

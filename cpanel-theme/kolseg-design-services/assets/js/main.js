@@ -2,6 +2,7 @@ const body = document.body;
 const nav = document.querySelector(".site-nav");
 const menuToggle = document.querySelector(".menu-toggle");
 const navDropdowns = nav ? [...nav.querySelectorAll(".nav-dropdown")] : [];
+let mobileNavClosingTimer = null;
 
 const setBodyNavState = (open) => {
   body.classList.toggle("nav-open", open && window.innerWidth <= 980);
@@ -31,6 +32,15 @@ const closeMenu = () => {
     menuToggle.setAttribute("aria-label", "Open navigation");
   }
 
+  if (mobileNavClosingTimer) {
+    window.clearTimeout(mobileNavClosingTimer);
+  }
+  body.classList.add("nav-was-open");
+  mobileNavClosingTimer = window.setTimeout(() => {
+    body.classList.remove("nav-was-open");
+    mobileNavClosingTimer = null;
+  }, 240);
+
   setBodyNavState(false);
   closeDropdowns();
 };
@@ -45,10 +55,20 @@ if (menuToggle && nav) {
     nav.classList.toggle("is-open", open);
     menuToggle.setAttribute("aria-expanded", String(open));
     menuToggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+    if (mobileNavClosingTimer) {
+      window.clearTimeout(mobileNavClosingTimer);
+      mobileNavClosingTimer = null;
+    }
+    body.classList.toggle("nav-was-open", !open);
     setBodyNavState(open);
 
     if (!open) {
       closeDropdowns();
+    } else if (nav instanceof HTMLElement) {
+      const firstLink = nav.querySelector("a");
+      if (firstLink instanceof HTMLElement) {
+        window.requestAnimationFrame(() => firstLink.focus({ preventScroll: true }));
+      }
     }
   });
 

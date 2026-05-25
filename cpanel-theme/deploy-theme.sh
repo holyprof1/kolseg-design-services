@@ -16,10 +16,17 @@ if [ ! -d "$SOURCE_DIR" ]; then
   exit 1
 fi
 
+for required in style.css functions.php header.php footer.php assets inc; do
+  if [ ! -e "$SOURCE_DIR/$required" ]; then
+    echo "Theme is missing required item: $SOURCE_DIR/$required"
+    exit 1
+  fi
+done
+
 mkdir -p "$TARGET_ROOT"
 
 if command -v rsync >/dev/null 2>&1; then
-  rsync -av --delete "$SOURCE_DIR/" "$TARGET_DIR/"
+  rsync -av --delete --exclude '.git/' --exclude '.DS_Store' "$SOURCE_DIR/" "$TARGET_DIR/"
 else
   rm -rf "$TARGET_DIR"
   mkdir -p "$TARGET_DIR"
@@ -27,4 +34,5 @@ else
 fi
 
 echo "Theme deployed to: $TARGET_DIR"
-echo "Next: activate or refresh the theme in WordPress, then open Appearance > Kolseg Setup."
+echo "WordPress theme folder name: kolseg-design-services"
+echo "Next: activate or refresh the theme in WordPress, then open Appearance > Kolseg Setup > Force Refresh Seeded Pages."
