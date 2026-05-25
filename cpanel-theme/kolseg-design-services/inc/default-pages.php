@@ -88,6 +88,7 @@ function kolseg_get_seed_slug_aliases() {
     return array(
         'main-studio' => 'home',
         'what-we-do' => 'services',
+        'services-agreement' => 'services',
         'about-us' => 'about',
         'contact-us' => 'contact',
         'sound-pa' => 'service-sound-pa',
