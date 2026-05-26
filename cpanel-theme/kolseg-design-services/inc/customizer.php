@@ -1,4 +1,26 @@
 <?php
+if (class_exists('WP_Customize_Control') && !class_exists('Kolseg_Customize_Note_Control')) {
+    class Kolseg_Customize_Note_Control extends WP_Customize_Control {
+        public $type = 'kolseg-note';
+
+        public function render_content() {
+            if (empty($this->label) && empty($this->description)) {
+                return;
+            }
+            ?>
+            <div class="kolseg-customizer-note">
+              <?php if (!empty($this->label)) : ?>
+                <span class="customize-control-title"><?php echo esc_html($this->label); ?></span>
+              <?php endif; ?>
+              <?php if (!empty($this->description)) : ?>
+                <div class="description customize-control-description"><?php echo wp_kses_post($this->description); ?></div>
+              <?php endif; ?>
+            </div>
+            <?php
+        }
+    }
+}
+
 function kolseg_get_customizer_image_description($setting, $args) {
     $current_image_url = get_theme_mod($setting);
     $fallback_path = !empty($args['fallback']) ? (string) $args['fallback'] : '';
@@ -106,12 +128,14 @@ function kolseg_customize_register($wp_customize) {
             );
 
             $wp_customize->add_control(
-                'kolseg_image_help_' . $section_key,
-                array(
-                    'section' => $section_key,
-                    'settings' => 'kolseg_image_help',
-                    'type' => 'hidden',
-                    'description' => wp_kses_post('<span class="kolseg-customizer-image-preview-help">' . esc_html__('Each image field shows the current live image first, then the bundled default for quick comparison.', 'kolseg-design-services') . '</span>'),
+                new Kolseg_Customize_Note_Control(
+                    $wp_customize,
+                    'kolseg_image_help_' . $section_key,
+                    array(
+                        'section' => $section_key,
+                        'settings' => 'kolseg_image_help',
+                        'description' => wp_kses_post('<span class="kolseg-customizer-image-preview-help">' . esc_html__('Each image field shows the current live image first, then the bundled default so you can compare before replacing it.', 'kolseg-design-services') . '</span>'),
+                    )
                 )
             );
 
@@ -127,13 +151,28 @@ function kolseg_customize_register($wp_customize) {
                 )
             );
 
+            $preview_description = kolseg_get_customizer_image_description($setting, $args);
+            if (!empty($preview_description)) {
+                $wp_customize->add_control(
+                    new Kolseg_Customize_Note_Control(
+                        $wp_customize,
+                        $setting . '_preview',
+                        array(
+                            'section' => $section_key,
+                            'settings' => 'kolseg_image_help',
+                            'description' => $preview_description,
+                        )
+                    )
+                );
+            }
+
             $wp_customize->add_control(
                 new WP_Customize_Image_Control(
                     $wp_customize,
                     $setting,
                     array(
                         'label' => $args['label'],
-                        'description' => kolseg_get_customizer_image_description($setting, $args),
+                        'description' => esc_html__('Choose a new image for this slot.', 'kolseg-design-services'),
                         'section' => $section_key,
                         'settings' => $setting,
                     )

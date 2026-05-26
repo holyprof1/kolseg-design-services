@@ -55,6 +55,16 @@ function kolseg_enqueue_assets() {
 }
 add_action('wp_enqueue_scripts', 'kolseg_enqueue_assets');
 
+function kolseg_enqueue_customizer_controls_assets() {
+    wp_enqueue_style(
+        'kolseg-customizer-controls',
+        get_template_directory_uri() . '/assets/css/customizer-controls.css',
+        array(),
+        kolseg_get_asset_version('/assets/css/customizer-controls.css')
+    );
+}
+add_action('customize_controls_enqueue_scripts', 'kolseg_enqueue_customizer_controls_assets');
+
 function kolseg_get_asset_version($relative_path) {
     $path = get_template_directory() . $relative_path;
     if (file_exists($path)) {

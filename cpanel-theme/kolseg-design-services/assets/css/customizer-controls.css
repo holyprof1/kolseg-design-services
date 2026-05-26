@@ -1,0 +1,58 @@
+.kolseg-customizer-note {
+    margin-bottom: 12px;
+}
+
+.customize-control-kolseg-note .customize-control-description {
+    display: block;
+    margin: 0 0 12px;
+}
+
+.kolseg-customizer-image-preview-help {
+    display: block;
+    padding: 10px 12px;
+    border-left: 4px solid #2271b1;
+    background: #f0f6fc;
+    color: #1d2327;
+}
+
+.kolseg-customizer-image-preview {
+    display: grid;
+    gap: 12px;
+}
+
+.kolseg-customizer-image-preview-card {
+    display: block;
+    padding: 12px;
+    border: 1px solid #dcdcde;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.kolseg-customizer-image-preview-card strong {
+    display: block;
+    margin-bottom: 8px;
+    color: #1d2327;
+}
+
+.kolseg-customizer-image-preview-card img {
+    display: block;
+    width: 100%;
+    max-height: 180px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    background: #f6f7f7;
+    object-fit: cover;
+}
+
+.kolseg-customizer-image-preview-card code {
+    display: inline-block;
+    margin-bottom: 8px;
+    white-space: normal;
+    word-break: break-word;
+}
+
+.kolseg-customizer-image-preview-card a {
+    display: inline-flex;
+    margin-top: 4px;
+}
