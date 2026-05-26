@@ -483,6 +483,28 @@ function kolseg_get_requested_slug() {
     return trim($request_path, '/');
 }
 
+function kolseg_recover_front_page_request() {
+    if (is_admin() || wp_doing_ajax()) {
+        return;
+    }
+
+    if ('' !== kolseg_get_requested_slug()) {
+        return;
+    }
+
+    if (kolseg_is_front_page_synced()) {
+        return;
+    }
+
+    kolseg_import_source_pages(false);
+    if (kolseg_should_auto_set_front_page()) {
+        kolseg_set_front_page_by_slug('home');
+    }
+
+    kolseg_render_seeded_request_fallback('home');
+}
+add_action('template_redirect', 'kolseg_recover_front_page_request', 1);
+
 function kolseg_disable_canonical_redirect_for_seed_pages($redirect_url, $requested_url) {
     if (is_admin() || empty($requested_url)) {
         return $redirect_url;

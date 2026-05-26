@@ -487,8 +487,29 @@ function kolseg_register_setup_page() {
 }
 add_action('admin_menu', 'kolseg_register_setup_page');
 
+function kolseg_get_customizer_preview_url_for_section($section_id) {
+    $section_preview_map = array(
+        'kolseg_navigation_images' => kolseg_get_page_url_by_slug('services'),
+        'kolseg_home_images' => home_url('/'),
+        'kolseg_service_images' => kolseg_get_page_url_by_slug('services'),
+        'kolseg_brand_images' => kolseg_get_page_url_by_slug('about'),
+    );
+
+    if (!empty($section_preview_map[$section_id])) {
+        return $section_preview_map[$section_id];
+    }
+
+    return home_url('/');
+}
+
 function kolseg_get_customizer_section_url($section_id) {
-    return admin_url('customize.php?autofocus[section]=' . rawurlencode($section_id));
+    return add_query_arg(
+        array(
+            'autofocus[section]' => $section_id,
+            'url' => kolseg_get_customizer_preview_url_for_section($section_id),
+        ),
+        admin_url('customize.php')
+    );
 }
 
 function kolseg_get_setup_preview_links() {

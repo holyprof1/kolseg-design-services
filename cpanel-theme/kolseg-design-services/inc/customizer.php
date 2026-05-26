@@ -1,24 +1,47 @@
 <?php
 function kolseg_get_customizer_image_description($setting, $args) {
+    $current_image_url = get_theme_mod($setting);
     $fallback_path = !empty($args['fallback']) ? (string) $args['fallback'] : '';
     $fallback_url = kolseg_get_theme_image_fallback($setting, $fallback_path);
 
-    if (empty($fallback_url)) {
+    if (empty($current_image_url) && empty($fallback_url)) {
         return '';
     }
 
-    $description = sprintf(
-        '<span class="kolseg-customizer-image-preview"><img src="%1$s" alt="" style="display:block;width:100%%;max-width:220px;height:auto;margin:10px 0;border-radius:10px;border:1px solid rgba(15,15,15,0.12);background:#111;"><span style="display:block;margin-bottom:6px;"><strong>%2$s</strong> <code>%3$s</code></span><a href="%1$s" target="_blank" rel="noopener noreferrer">%4$s</a></span>',
-        esc_url($fallback_url),
-        esc_html__('Default image:', 'kolseg-design-services'),
-        esc_html($fallback_path),
-        esc_html__('Open full image', 'kolseg-design-services')
-    );
+    $preview_cards = array();
+
+    if (!empty($current_image_url)) {
+        $preview_cards[] = sprintf(
+            '<span class="kolseg-customizer-image-preview-card"><strong>%1$s</strong><img src="%2$s" alt=""><a href="%2$s" target="_blank" rel="noopener noreferrer">%3$s</a></span>',
+            esc_html__('Current image', 'kolseg-design-services'),
+            esc_url($current_image_url),
+            esc_html__('Open current image', 'kolseg-design-services')
+        );
+    }
+
+    if (!empty($fallback_url)) {
+        $preview_cards[] = sprintf(
+            '<span class="kolseg-customizer-image-preview-card"><strong>%1$s</strong><img src="%2$s" alt=""><span><code>%3$s</code></span><a href="%2$s" target="_blank" rel="noopener noreferrer">%4$s</a></span>',
+            esc_html__('Bundled default', 'kolseg-design-services'),
+            esc_url($fallback_url),
+            esc_html($fallback_path),
+            esc_html__('Open default image', 'kolseg-design-services')
+        );
+    }
+
+    $description = '<span class="kolseg-customizer-image-preview">' . implode('', $preview_cards) . '</span>';
 
     return wp_kses_post($description);
 }
 
 function kolseg_customize_register($wp_customize) {
+    $wp_customize->add_setting(
+        'kolseg_image_help',
+        array(
+            'sanitize_callback' => 'sanitize_text_field',
+        )
+    );
+
     $wp_customize->add_section(
         'kolseg_home',
         array(
@@ -74,13 +97,23 @@ function kolseg_customize_register($wp_customize) {
     $wp_customize->add_control('kolseg_youtube_url', array('label' => __('YouTube URL', 'kolseg-design-services'), 'section' => 'kolseg_home', 'type' => 'url'));
 
     foreach (kolseg_get_theme_image_catalog() as $section_key => $section) {
-        $wp_customize->add_section(
-            $section_key,
-            array(
-                'title' => $section['title'],
-                'priority' => $section['priority'],
-            )
-        );
+            $wp_customize->add_section(
+                $section_key,
+                array(
+                    'title' => $section['title'],
+                    'priority' => $section['priority'],
+                )
+            );
+
+            $wp_customize->add_control(
+                'kolseg_image_help_' . $section_key,
+                array(
+                    'section' => $section_key,
+                    'settings' => 'kolseg_image_help',
+                    'type' => 'hidden',
+                    'description' => wp_kses_post('<span class="kolseg-customizer-image-preview-help">' . esc_html__('Each image field shows the current live image first, then the bundled default for quick comparison.', 'kolseg-design-services') . '</span>'),
+                )
+            );
 
         if (empty($section['images']) || !is_array($section['images'])) {
             continue;
