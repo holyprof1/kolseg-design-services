@@ -65,6 +65,105 @@ function kolseg_get_asset_version($relative_path) {
     return $theme->get('Version');
 }
 
+function kolseg_get_asset_mime_type($file_path) {
+    $file_type = wp_check_filetype($file_path);
+    if (!empty($file_type['type'])) {
+        return $file_type['type'];
+    }
+
+    $extension = strtolower((string) pathinfo($file_path, PATHINFO_EXTENSION));
+    $mime_types = array(
+        'css' => 'text/css; charset=UTF-8',
+        'js' => 'application/javascript; charset=UTF-8',
+        'svg' => 'image/svg+xml',
+        'woff' => 'font/woff',
+        'woff2' => 'font/woff2',
+        'ttf' => 'font/ttf',
+        'otf' => 'font/otf',
+    );
+
+    if (isset($mime_types[$extension])) {
+        return $mime_types[$extension];
+    }
+
+    return 'application/octet-stream';
+}
+
+function kolseg_maybe_serve_theme_asset_request() {
+    if (is_admin() || empty($_SERVER['REQUEST_URI'])) {
+        return;
+    }
+
+    $request_path = wp_parse_url(wp_unslash($_SERVER['REQUEST_URI']), PHP_URL_PATH);
+    $theme_path = wp_parse_url(trailingslashit(get_template_directory_uri()), PHP_URL_PATH);
+    if (empty($request_path) || empty($theme_path)) {
+        return;
+    }
+
+    $theme_path = untrailingslashit((string) $theme_path);
+    $theme_asset_prefix = $theme_path . '/';
+    if (0 !== strpos((string) $request_path, $theme_asset_prefix)) {
+        return;
+    }
+
+    $relative_path = ltrim(substr((string) $request_path, strlen($theme_asset_prefix)), '/');
+    if (empty($relative_path)) {
+        return;
+    }
+
+    $allowed_extensions = array(
+        'css',
+        'js',
+        'gif',
+        'ico',
+        'jpeg',
+        'jpg',
+        'otf',
+        'png',
+        'svg',
+        'ttf',
+        'webp',
+        'woff',
+        'woff2',
+    );
+    $extension = strtolower((string) pathinfo($relative_path, PATHINFO_EXTENSION));
+    if (!in_array($extension, $allowed_extensions, true)) {
+        return;
+    }
+
+    $theme_root = realpath(get_template_directory());
+    $file_path = realpath(get_template_directory() . '/' . $relative_path);
+    if (false === $theme_root || false === $file_path) {
+        return;
+    }
+
+    $theme_root = wp_normalize_path($theme_root);
+    $file_path = wp_normalize_path($file_path);
+    if (0 !== strpos($file_path, $theme_root . '/')) {
+        return;
+    }
+
+    if (!is_file($file_path) || !is_readable($file_path)) {
+        return;
+    }
+
+    while (ob_get_level() > 0) {
+        ob_end_clean();
+    }
+
+    status_header(200);
+    header('Content-Type: ' . kolseg_get_asset_mime_type($file_path));
+    header('Content-Length: ' . (string) filesize($file_path));
+    header('Cache-Control: public, max-age=3600');
+
+    if ('HEAD' !== strtoupper((string) $_SERVER['REQUEST_METHOD'])) {
+        readfile($file_path);
+    }
+
+    exit;
+}
+add_action('init', 'kolseg_maybe_serve_theme_asset_request', 0);
+
 function kolseg_get_page_key() {
     $resolved_slug = kolseg_get_resolved_seed_slug();
     if (!empty($resolved_slug)) {

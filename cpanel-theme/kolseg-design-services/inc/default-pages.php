@@ -115,6 +115,38 @@ function kolseg_normalize_seed_slug($slug) {
     return $slug;
 }
 
+function kolseg_get_seed_slug_candidates($slug) {
+    $slug = trim((string) $slug);
+    if ('' === $slug) {
+        return array();
+    }
+
+    $candidates = array($slug);
+    $normalized_slug = kolseg_normalize_seed_slug($slug);
+    if ($normalized_slug !== $slug) {
+        $candidates[] = $normalized_slug;
+    }
+
+    foreach (kolseg_get_seed_slug_aliases() as $alias => $target_slug) {
+        if ($target_slug === $normalized_slug) {
+            $candidates[] = $alias;
+        }
+    }
+
+    return array_values(array_unique(array_filter($candidates)));
+}
+
+function kolseg_get_page_by_seed_slug($slug) {
+    foreach (kolseg_get_seed_slug_candidates($slug) as $candidate_slug) {
+        $page = get_page_by_path($candidate_slug, OBJECT, 'page');
+        if ($page instanceof WP_Post && 'publish' === $page->post_status) {
+            return $page;
+        }
+    }
+
+    return null;
+}
+
 function kolseg_get_seed_config_by_slug($slug) {
     $slug = kolseg_normalize_seed_slug($slug);
     $page_map = kolseg_get_seed_page_map();
@@ -144,7 +176,7 @@ function kolseg_get_page_url_by_slug($slug) {
         return home_url('/');
     }
 
-    $page = get_page_by_path($slug, OBJECT, 'page');
+    $page = kolseg_get_page_by_seed_slug($slug);
     if ($page instanceof WP_Post && 'publish' === $page->post_status) {
         return get_permalink($page);
     }
@@ -153,7 +185,7 @@ function kolseg_get_page_url_by_slug($slug) {
 }
 
 function kolseg_get_page_title_by_slug($slug, $fallback) {
-    $page = get_page_by_path($slug, OBJECT, 'page');
+    $page = kolseg_get_page_by_seed_slug($slug);
     if ($page instanceof WP_Post && 'publish' === $page->post_status) {
         return get_the_title($page);
     }
@@ -433,7 +465,7 @@ function kolseg_get_seed_source_content($slug) {
 }
 
 function kolseg_set_front_page_by_slug($slug = 'home') {
-    $page = get_page_by_path($slug, OBJECT, 'page');
+    $page = kolseg_get_page_by_seed_slug($slug);
     if (!($page instanceof WP_Post)) {
         return false;
     }
