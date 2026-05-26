@@ -468,6 +468,79 @@ function kolseg_get_setup_preview_links() {
     );
 }
 
+function kolseg_render_setup_image_library() {
+    $catalog = kolseg_get_theme_image_catalog();
+
+    if (empty($catalog)) {
+        return;
+    }
+    ?>
+    <style>
+      .kolseg-image-library {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+        margin-top: 18px;
+      }
+      .kolseg-image-library-card {
+        background: #fff;
+        border: 1px solid #dcdcde;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+      }
+      .kolseg-image-library-card img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+        background: #111;
+      }
+      .kolseg-image-library-copy {
+        padding: 14px;
+      }
+      .kolseg-image-library-copy h4 {
+        margin: 0 0 8px;
+      }
+      .kolseg-image-library-copy p {
+        margin: 0 0 8px;
+      }
+    </style>
+    <?php
+
+    foreach ($catalog as $section_id => $section) {
+        if (empty($section['images']) || !is_array($section['images'])) {
+            continue;
+        }
+        ?>
+        <h3><?php echo esc_html($section['title']); ?></h3>
+        <div class="kolseg-image-library">
+          <?php foreach ($section['images'] as $setting => $args) : ?>
+            <?php
+            $fallback_path = !empty($args['fallback']) ? (string) $args['fallback'] : '';
+            $fallback_url = kolseg_get_theme_image_fallback($setting, $fallback_path);
+            if (empty($fallback_url)) {
+                continue;
+            }
+            ?>
+            <article class="kolseg-image-library-card">
+              <img src="<?php echo esc_url($fallback_url); ?>" alt="">
+              <div class="kolseg-image-library-copy">
+                <h4><?php echo esc_html($args['label']); ?></h4>
+                <p><code><?php echo esc_html($fallback_path); ?></code></p>
+                <p>
+                  <a class="button button-secondary" href="<?php echo esc_url(kolseg_get_customizer_section_url($section_id)); ?>" target="_blank" rel="noopener noreferrer">
+                    <?php esc_html_e('Open in Customizer', 'kolseg-design-services'); ?>
+                  </a>
+                </p>
+              </div>
+            </article>
+          <?php endforeach; ?>
+        </div>
+        <?php
+    }
+}
+
 function kolseg_register_admin_bar_links($wp_admin_bar) {
     if (!is_admin_bar_showing() || !current_user_can('edit_theme_options')) {
         return;
@@ -601,6 +674,10 @@ function kolseg_render_setup_page() {
           </a>
         <?php endforeach; ?>
       </p>
+      <hr />
+      <h2><?php esc_html_e('Default Image Library', 'kolseg-design-services'); ?></h2>
+      <p><?php esc_html_e('These are the bundled theme images currently used as defaults before you replace them in the Customizer.', 'kolseg-design-services'); ?></p>
+      <?php kolseg_render_setup_image_library(); ?>
     </div>
     <?php
 }

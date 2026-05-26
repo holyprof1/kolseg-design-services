@@ -1,4 +1,23 @@
 <?php
+function kolseg_get_customizer_image_description($setting, $args) {
+    $fallback_path = !empty($args['fallback']) ? (string) $args['fallback'] : '';
+    $fallback_url = kolseg_get_theme_image_fallback($setting, $fallback_path);
+
+    if (empty($fallback_url)) {
+        return '';
+    }
+
+    $description = sprintf(
+        '<span class="kolseg-customizer-image-preview"><img src="%1$s" alt="" style="display:block;width:100%%;max-width:220px;height:auto;margin:10px 0;border-radius:10px;border:1px solid rgba(15,15,15,0.12);background:#111;"><span style="display:block;margin-bottom:6px;"><strong>%2$s</strong> <code>%3$s</code></span><a href="%1$s" target="_blank" rel="noopener noreferrer">%4$s</a></span>',
+        esc_url($fallback_url),
+        esc_html__('Default image:', 'kolseg-design-services'),
+        esc_html($fallback_path),
+        esc_html__('Open full image', 'kolseg-design-services')
+    );
+
+    return wp_kses_post($description);
+}
+
 function kolseg_customize_register($wp_customize) {
     $wp_customize->add_section(
         'kolseg_home',
@@ -81,6 +100,7 @@ function kolseg_customize_register($wp_customize) {
                     $setting,
                     array(
                         'label' => $args['label'],
+                        'description' => kolseg_get_customizer_image_description($setting, $args),
                         'section' => $section_key,
                         'settings' => $setting,
                     )
